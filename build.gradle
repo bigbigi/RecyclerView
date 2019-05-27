@@ -1,26 +1,27 @@
-//apply plugin: 'com.android.application'
-apply plugin: 'com.android.library'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+buildscript {
+    repositories {
+//        maven { url 'http://192.168.1.12:8088/repository/ppfuns/' }
+        jcenter()
+        mavenCentral()
 
-//    defaultConfig {
-//        applicationId "android.support.v7.widget"
-//        minSdkVersion 15
-//        targetSdkVersion 25
-//        versionCode 1
-//        versionName "1.0"
-//    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:22.2.1'
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
