@@ -3,6 +3,7 @@ package com.recyclerview.demo;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,18 +23,51 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = findViewById(R.id.recycler);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 12);
         mRecyclerView.setLayoutManager(layoutManager);
         MyAdapter adapter = new MyAdapter();
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-                outRect.set(10, 10, 10, 10);
+            public void getItemOffsets(Rect outRect, int position, RecyclerView parent) {
+                int left = 0;
+                int right = 0;
+                switch (position % 7) {
+                    case 4:
+                        left=500;
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    default:
+                        left = 10;
+                        right = 10;
+                        break;
+                }
+                outRect.set(left, 10, right, 10);
             }
         });
+        GridLayoutManager.SpanSizeLookup lookup = new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int size;
+                switch (position % 7) {
+                    case 4:
+                    case 5:
+                    case 6:
+                        size = 4;
+                        break;
+                    default:
+                        size = 3;
+                }
+                return size;
+            }
 
-        for (int i = 0; i < 20; i++) {
+        };
+        layoutManager.setSpanSizeLookup(lookup);
+
+        for (int i = 0; i < 40; i++) {
             mList.add("test_" + i);
         }
         adapter.notifyDataSetChanged();
@@ -60,7 +94,7 @@ public class MainActivity extends Activity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position % 4 == 0) {
+            if (position % 7 == 0) {
                 return R.layout.item_big;
             } else {
                 return R.layout.item_txt;

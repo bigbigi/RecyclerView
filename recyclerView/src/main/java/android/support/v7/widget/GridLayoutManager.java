@@ -41,7 +41,7 @@ public class GridLayoutManager extends LinearLayoutManager {
      * The measure spec for the scroll direction.
      */
     static final int MAIN_DIR_SPEC =
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
     /**
      * Span size have been changed but we've not done a new layout calculation.
      */
@@ -52,7 +52,7 @@ public class GridLayoutManager extends LinearLayoutManager {
      * <p>For <b>i-th</b> item start is {@link #mCachedBorders}[i-1] + 1
      * and end is {@link #mCachedBorders}[i].
      */
-    int [] mCachedBorders;
+    int[] mCachedBorders;
     /**
      * Temporary array to keep views in layoutChunk method
      */
@@ -81,7 +81,7 @@ public class GridLayoutManager extends LinearLayoutManager {
     /**
      * Creates a vertical GridLayoutManager
      *
-     * @param context Current context, will be used to access resources.
+     * @param context   Current context, will be used to access resources.
      * @param spanCount The number of columns in the grid
      */
     public GridLayoutManager(Context context, int spanCount) {
@@ -90,9 +90,9 @@ public class GridLayoutManager extends LinearLayoutManager {
     }
 
     /**
-     * @param context Current context, will be used to access resources.
-     * @param spanCount The number of columns or rows in the grid
-     * @param orientation Layout orientation. Should be {@link #HORIZONTAL} or {@link
+     * @param context       Current context, will be used to access resources.
+     * @param spanCount     The number of columns or rows in the grid
+     * @param orientation   Layout orientation. Should be {@link #HORIZONTAL} or {@link
      *                      #VERTICAL}.
      * @param reverseLayout When set to true, layouts from end to start.
      */
@@ -110,8 +110,8 @@ public class GridLayoutManager extends LinearLayoutManager {
     public void setStackFromEnd(boolean stackFromEnd) {
         if (stackFromEnd) {
             throw new UnsupportedOperationException(
-                    "GridLayoutManager does not support stack from end."
-                            + " Consider using reverse layout");
+                "GridLayoutManager does not support stack from end."
+                    + " Consider using reverse layout");
         }
         super.setStackFromEnd(false);
     }
@@ -152,14 +152,14 @@ public class GridLayoutManager extends LinearLayoutManager {
         int spanGroupIndex = getSpanGroupIndex(recycler, state, glp.getViewLayoutPosition());
         if (mOrientation == HORIZONTAL) {
             info.setCollectionItemInfo(AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(
-                    glp.getSpanIndex(), glp.getSpanSize(),
-                    spanGroupIndex, 1,
-                    mSpanCount > 1 && glp.getSpanSize() == mSpanCount, false));
+                glp.getSpanIndex(), glp.getSpanSize(),
+                spanGroupIndex, 1,
+                mSpanCount > 1 && glp.getSpanSize() == mSpanCount, false));
         } else { // VERTICAL
             info.setCollectionItemInfo(AccessibilityNodeInfoCompat.CollectionItemInfoCompat.obtain(
-                    spanGroupIndex , 1,
-                    glp.getSpanIndex(), glp.getSpanSize(),
-                    mSpanCount > 1 && glp.getSpanSize() == mSpanCount, false));
+                spanGroupIndex, 1,
+                glp.getSpanIndex(), glp.getSpanSize(),
+                mSpanCount > 1 && glp.getSpanSize() == mSpanCount, false));
         }
     }
 
@@ -221,7 +221,7 @@ public class GridLayoutManager extends LinearLayoutManager {
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
@@ -274,7 +274,7 @@ public class GridLayoutManager extends LinearLayoutManager {
 
     private void calculateItemBorders(int totalSpace) {
         if (mCachedBorders == null || mCachedBorders.length != mSpanCount + 1
-                || mCachedBorders[mCachedBorders.length - 1] != totalSpace) {
+            || mCachedBorders[mCachedBorders.length - 1] != totalSpace) {
             mCachedBorders = new int[mSpanCount + 1];
         }
         mCachedBorders[0] = 0;
@@ -338,7 +338,7 @@ public class GridLayoutManager extends LinearLayoutManager {
                         invalidMatch = view; // removed item, least preferred
                     }
                 } else if (mOrientationHelper.getDecoratedStart(view) >= boundsEnd ||
-                        mOrientationHelper.getDecoratedEnd(view) < boundsStart) {
+                    mOrientationHelper.getDecoratedEnd(view) < boundsStart) {
                     if (outOfBoundsMatch == null) {
                         outOfBoundsMatch = view; // item is not visible, less preferred
                     }
@@ -359,7 +359,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (adapterPosition == -1) {
             if (DEBUG) {
                 throw new RuntimeException("Cannot find span group index for position "
-                        + viewPosition);
+                    + viewPosition);
             }
             Log.w(TAG, "Cannot find span size for pre layout position. " + viewPosition);
             return 0;
@@ -379,10 +379,10 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (adapterPosition == -1) {
             if (DEBUG) {
                 throw new RuntimeException("Cannot find span index for pre layout position. It is"
-                        + " not cached, not in the adapter. Pos:" + pos);
+                    + " not cached, not in the adapter. Pos:" + pos);
             }
             Log.w(TAG, "Cannot find span size for pre layout position. It is"
-                    + " not cached, not in the adapter. Pos:" + pos);
+                + " not cached, not in the adapter. Pos:" + pos);
             return 0;
         }
         return mSpanSizeLookup.getCachedSpanIndex(adapterPosition, mSpanCount);
@@ -400,22 +400,24 @@ public class GridLayoutManager extends LinearLayoutManager {
         if (adapterPosition == -1) {
             if (DEBUG) {
                 throw new RuntimeException("Cannot find span size for pre layout position. It is"
-                        + " not cached, not in the adapter. Pos:" + pos);
+                    + " not cached, not in the adapter. Pos:" + pos);
             }
             Log.w(TAG, "Cannot find span size for pre layout position. It is"
-                    + " not cached, not in the adapter. Pos:" + pos);
+                + " not cached, not in the adapter. Pos:" + pos);
             return 1;
         }
         return mSpanSizeLookup.getSpanSize(adapterPosition);
     }
 
+
     @Override
     void layoutChunk(RecyclerView.Recycler recycler, RecyclerView.State state,
                      LayoutState layoutState, LayoutChunkResult result) {
         final boolean layingOutInPrimaryDirection =
-                layoutState.mItemDirection == LayoutState.ITEM_DIRECTION_TAIL;
+            layoutState.mItemDirection == LayoutState.ITEM_DIRECTION_TAIL;
         int count = 0;
         int consumedSpanCount = 0;
+        int consum = -1;
         int remainingSpan = mSpanCount;
         if (!layingOutInPrimaryDirection) {
             int itemSpanIndex = getSpanIndex(recycler, state, layoutState.mCurrentPosition);
@@ -427,8 +429,8 @@ public class GridLayoutManager extends LinearLayoutManager {
             final int spanSize = getSpanSize(recycler, state, pos);
             if (spanSize > mSpanCount) {
                 throw new IllegalArgumentException("Item at position " + pos + " requires " +
-                        spanSize + " spans but GridLayoutManager has only " + mSpanCount
-                        + " spans.");
+                    spanSize + " spans but GridLayoutManager has only " + mSpanCount
+                    + " spans.");
             }
             remainingSpan -= spanSize;
             if (remainingSpan < 0) {
@@ -449,6 +451,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         }
 
         int maxSize = 0;
+        int minSize = Integer.MAX_VALUE;
 
         // we should assign spans before item decor offsets are calculated
         assignSpans(recycler, state, count, consumedSpanCount, layingOutInPrimaryDirection);
@@ -470,11 +473,13 @@ public class GridLayoutManager extends LinearLayoutManager {
 
             final LayoutParams lp = (LayoutParams) view.getLayoutParams();
             final int spec = View.MeasureSpec.makeMeasureSpec(
-                    mCachedBorders[lp.mSpanIndex + lp.mSpanSize] -
-                            mCachedBorders[lp.mSpanIndex],
-                    View.MeasureSpec.EXACTLY);
+                mCachedBorders[lp.mSpanIndex + lp.mSpanSize] -
+                    mCachedBorders[lp.mSpanIndex],
+                View.MeasureSpec.EXACTLY);
             if (mOrientation == VERTICAL) {
-                measureChildWithDecorationsAndMargin(view, spec, getMainDirSpec(lp.height));
+                int height = getMainDirSpec(lp.height);
+//                Log.d("big","getMainDirSpec:"+height+",lp.height:"+lp.height);
+                measureChildWithDecorationsAndMargin(view, spec, height);
             } else {
                 measureChildWithDecorationsAndMargin(view, getMainDirSpec(lp.width), spec);
             }
@@ -482,10 +487,13 @@ public class GridLayoutManager extends LinearLayoutManager {
             if (size > maxSize) {
                 maxSize = size;
             }
+            if (size < minSize) {
+                minSize = size;
+            }
         }
 
         // views that did not measure the maxSize has to be re-measured
-        final int maxMeasureSpec = getMainDirSpec(maxSize);
+        /*final int maxMeasureSpec = getMainDirSpec(maxSize);
         for (int i = 0; i < count; i ++) {
             final View view = mSet[i];
             if (mOrientationHelper.getDecoratedMeasurement(view) != maxSize) {
@@ -500,15 +508,16 @@ public class GridLayoutManager extends LinearLayoutManager {
                     measureChildWithDecorationsAndMargin(view, maxMeasureSpec, spec);
                 }
             }
-        }
+        }*/
 
-        result.mConsumed = maxSize;
+        result.mConsumed = minSize;
+        Log.d("big", "direction:" + layoutState.mLayoutDirection+",consum:"+result.mConsumed+",layoutState.mOffset:"+layoutState.mOffset);
 
         int left = 0, right = 0, top = 0, bottom = 0;
         if (mOrientation == VERTICAL) {
             if (layoutState.mLayoutDirection == LayoutState.LAYOUT_START) {
                 bottom = layoutState.mOffset;
-                top = bottom - maxSize;
+                top = bottom - minSize;
             } else {
                 top = layoutState.mOffset;
                 bottom = top + maxSize;
@@ -522,6 +531,7 @@ public class GridLayoutManager extends LinearLayoutManager {
                 right = left + maxSize;
             }
         }
+//        Log.d("big","top:"+top);
         for (int i = 0; i < count; i++) {
             View view = mSet[i];
             LayoutParams params = (LayoutParams) view.getLayoutParams();
@@ -535,12 +545,12 @@ public class GridLayoutManager extends LinearLayoutManager {
             // We calculate everything with View's bounding box (which includes decor and margins)
             // To calculate correct layout position, we subtract margins.
             layoutDecorated(view, left + params.leftMargin, top + params.topMargin,
-                    right - params.rightMargin, bottom - params.bottomMargin);
+                right - params.rightMargin, /*bottom - params.bottomMargin*/top + params.height - params.bottomMargin);
             if (DEBUG) {
                 Log.d(TAG, "laid out child at position " + getPosition(view) + ", with l:"
-                        + (left + params.leftMargin) + ", t:" + (top + params.topMargin) + ", r:"
-                        + (right - params.rightMargin) + ", b:" + (bottom - params.bottomMargin)
-                        + ", span:" + params.mSpanIndex + ", spanSize:" + params.mSpanSize);
+                    + (left + params.leftMargin) + ", t:" + (top + params.topMargin) + ", r:"
+                    + (right - params.rightMargin) + ", b:" + (bottom - params.bottomMargin)
+                    + ", span:" + params.mSpanIndex + ", spanSize:" + params.mSpanSize);
             }
             // Consume the available space if the view is not removed OR changed
             if (params.isItemRemoved() || params.isItemChanged()) {
@@ -563,9 +573,9 @@ public class GridLayoutManager extends LinearLayoutManager {
         calculateItemDecorationsForChild(child, mDecorInsets);
         RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) child.getLayoutParams();
         widthSpec = updateSpecWithExtra(widthSpec, lp.leftMargin + mDecorInsets.left,
-                lp.rightMargin + mDecorInsets.right);
+            lp.rightMargin + mDecorInsets.right);
         heightSpec = updateSpecWithExtra(heightSpec, lp.topMargin + mDecorInsets.top,
-                lp.bottomMargin + mDecorInsets.bottom);
+            lp.bottomMargin + mDecorInsets.bottom);
         child.measure(widthSpec, heightSpec);
     }
 
@@ -576,7 +586,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         final int mode = View.MeasureSpec.getMode(spec);
         if (mode == View.MeasureSpec.AT_MOST || mode == View.MeasureSpec.EXACTLY) {
             return View.MeasureSpec.makeMeasureSpec(
-                    View.MeasureSpec.getSize(spec) - startInset - endInset, mode);
+                View.MeasureSpec.getSize(spec) - startInset - endInset, mode);
         }
         return spec;
     }
@@ -640,7 +650,7 @@ public class GridLayoutManager extends LinearLayoutManager {
         mPendingSpanCountChange = true;
         if (spanCount < 1) {
             throw new IllegalArgumentException("Span count should be at least 1. Provided "
-                    + spanCount);
+                + spanCount);
         }
         mSpanCount = spanCount;
         mSpanSizeLookup.invalidateSpanIndexCache();
@@ -666,6 +676,7 @@ public class GridLayoutManager extends LinearLayoutManager {
          * @return The number of spans occupied by the item at the provided position
          */
         abstract public int getSpanSize(int position);
+
 
         /**
          * Sets whether the results of {@link #getSpanIndex(int, int)} method should be cached or
@@ -789,7 +800,7 @@ public class GridLayoutManager extends LinearLayoutManager {
          * for item 1 will be 0, item 5 will be 1.
          *
          * @param adapterPosition The position in adapter
-         * @param spanCount The total number of spans in the grid
+         * @param spanCount       The total number of spans in the grid
          * @return The index of the span group including the item at the given adapter position
          */
         public int getSpanGroupIndex(int adapterPosition, int spanCount) {
