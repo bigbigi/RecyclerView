@@ -33,26 +33,30 @@ public class FocusRecyclerView extends RecyclerView {
             LinearLayoutManager layoutManager = (LinearLayoutManager) parent.getLayoutManager();
             if (layoutManager.getOrientation() == OrientationHelper.VERTICAL) {
                 if (direction == View.FOCUS_DOWN) {
-                    Log.d("big","position:"+layoutManager.getPosition(next)+",last:"+layoutManager.findLastVisibleItemPosition()+",state:"+parent.getScrollState());
+                    Log.d("big", "position:" + layoutManager.getPosition(next) + ",last:" + layoutManager.findLastVisibleItemPosition() + ",state:" + parent.getScrollState());
                     if (parent != next.getParent() || layoutManager.getPosition(next) > layoutManager.findLastVisibleItemPosition()
-                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE
+                        || next.getBottom() == focused.getBottom()) {
                         return focused;
                     }
                 } else if (direction == View.FOCUS_UP) {
                     if (parent != next.getParent() || layoutManager.getPosition(next) < layoutManager.findFirstVisibleItemPosition()
-                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE
+                        || next.getTop() == focused.getTop()) {
                         return focused;
                     }
                 }
             } else {
                 if (direction == View.FOCUS_RIGHT) {
                     if (parent != next.getParent() || layoutManager.getPosition(next) > layoutManager.findLastVisibleItemPosition()
-                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE
+                        || next.getRight() == focused.getRight()) {
                         return focused;
                     }
                 } else if (direction == View.FOCUS_LEFT) {
                     if (parent != next.getParent() || layoutManager.getPosition(next) < layoutManager.findFirstVisibleItemPosition()
-                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE) {
+                        && parent.getScrollState() != RecyclerView.SCROLL_STATE_IDLE
+                        || next.getLeft() == focused.getLeft()) {
                         return focused;
                     }
                 }

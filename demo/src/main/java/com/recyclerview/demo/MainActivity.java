@@ -132,7 +132,7 @@ public class MainActivity extends Activity {
                     public void onFocusChange(View view, boolean b) {
                         if(b){
                             Log.d("big","onFocusChange");
-                            mRecyclerView.scroll(view,0);
+                            mRecyclerView.scroll(view,50);
                         }
                     }
                 });

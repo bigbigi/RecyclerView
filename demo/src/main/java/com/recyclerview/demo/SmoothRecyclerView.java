@@ -62,23 +62,17 @@ public class SmoothRecyclerView extends FocusRecyclerView {
         if (position < 0) return false;
         mScrollDirection = DIRECTION_NONE;
         LinearLayoutManager layoutManager = (LinearLayoutManager) getLayoutManager();
-        if (child != mCurrentFocusChild) {
+        if (mCurrentFocusChild != null && child != mCurrentFocusChild) {
             if (OrientationHelper.VERTICAL == layoutManager.getOrientation()) {
-                if (mCurrentFocusChild == null) {
+                if (child.getBottom() > getBottom()) {
                     mScrollDirection = DIRECTION_DOWN;
-                    scroll(0, offset);
-                } else if (child.getBottom() > getBottom()) {
-                    mScrollDirection = DIRECTION_DOWN;
-                    scroll(0, child.getBottom() - getBottom());
+                    scroll(0, child.getBottom() - getBottom() + offset);
                 } else if (child.getTop() < getTop()) {
                     mScrollDirection = DIRECTION_UP;
-                    scroll(0, child.getTop() - getTop());
+                    scroll(0, child.getTop() - getTop() - offset);
                 }
             } else {
-                if (mCurrentFocusChild == null) {
-                    mScrollDirection = DIRECTION_RIGHT;
-                    scroll(offset, 0);
-                } else if (child.getRight() > getRight()) {
+                if (child.getRight() > getRight()) {
                     mScrollDirection = DIRECTION_RIGHT;
                     scroll(getWidth(), 0);
                 } else if (child.getLeft() < getLeft()) {
