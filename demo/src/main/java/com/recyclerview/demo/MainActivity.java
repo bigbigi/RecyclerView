@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    RecyclerView mRecyclerView;
+    SmoothRecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +35,13 @@ public class MainActivity extends Activity {
                 int left = 0;
                 int right = 0;
                 switch (position % 7) {
-                    case 4:
+                   /* case 4:
                         left=500;
                         break;
                     case 5:
                         break;
                     case 6:
-                        break;
+                        break;*/
                     default:
                         left = 10;
                         right = 10;
@@ -53,11 +55,11 @@ public class MainActivity extends Activity {
             public int getSpanSize(int position) {
                 int size;
                 switch (position % 7) {
-                    case 4:
+                  /*  case 4:
                     case 5:
                     case 6:
                         size = 4;
-                        break;
+                        break;*/
                     default:
                         size = 3;
                 }
@@ -67,10 +69,20 @@ public class MainActivity extends Activity {
         };
         layoutManager.setSpanSizeLookup(lookup);
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < /*40*/120; i++) {
             mList.add("test_" + i);
         }
         adapter.notifyDataSetChanged();
+        ViewTreeObserver vo=mRecyclerView.getViewTreeObserver();
+        vo.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mRecyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if(mRecyclerView.getChildCount()>0){
+                    mRecyclerView.getChildAt(0).requestFocus();
+                }
+            }
+        });
     }
 
     private List<String> mList = new ArrayList<>();
@@ -94,7 +106,7 @@ public class MainActivity extends Activity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position % 7 == 0) {
+            if (/*position % 7 == 0*/false) {
                 return R.layout.item_big;
             } else {
                 return R.layout.item_txt;
@@ -107,6 +119,23 @@ public class MainActivity extends Activity {
             public MyHolder(View itemView) {
                 super(itemView);
                 textView = itemView.findViewById(R.id.item_txt);
+                textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if(b){
+//                            Log.d("big","bottom:"+view.getBottom());
+                        }
+                    }
+                });
+                itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if(b){
+                            Log.d("big","onFocusChange");
+                            mRecyclerView.scroll(view,0);
+                        }
+                    }
+                });
             }
         }
     }
